@@ -4,7 +4,7 @@ def load_config(filename='conns.ini', section='azurestorage'):
     parser = ConfigParser()
     parser.read(filename)
 
-    # get section, default to storage
+    # get section
     config = {}
     if parser.has_section(section):
         params = parser.items(section)

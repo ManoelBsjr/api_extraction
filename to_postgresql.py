@@ -53,7 +53,7 @@ def to_postgresql(extract_data, table_name, table_schema = ""):
     );
     """
 
-    #cursor to execute query
+    ##cursor to execute query
     print("executando query no sql")
     cursor.execute(sql_query)
 

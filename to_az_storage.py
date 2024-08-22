@@ -9,8 +9,6 @@ def to_blob_storage(dataframe, filename = ''):
 
     config = load_config()
 
-    # storage_account_key = config['storage_account_key']
-    # storage_account_name = config['storage_account_name']
     connection_string = config['connection_string']
     container_name = config['container_name']
     format = '.parquet'
