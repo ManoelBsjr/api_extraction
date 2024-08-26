@@ -1,6 +1,7 @@
 ## This project is an api extraction. The api documentation can be found [here](https://pokeapi.co/docs/v2)
 ### Content
 
+* [Utilized technologies](Technologies)
 
 
 ### Technologies
