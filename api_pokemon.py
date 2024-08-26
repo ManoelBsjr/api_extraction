@@ -29,7 +29,6 @@ def extrair_pokemon():
                 "Nome" : pokemon_name,
                 "Altura": response_pokemon["height"],
                 "Peso": response_pokemon["weight"]
-                # "Primeira_Forma": response_pokemon["is_default"]
             }
 
             #append the dictionary data to the pokemon_list
