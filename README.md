@@ -67,9 +67,21 @@ def extrair_pokemon():
 
     #write on to azure storage
     to_blob_storage(pokemon_list, "api_pokemon")
-
-if __name__ == "__main__":
-    extrair_pokemon()
 ```
-### Config
+### Configs
 
+In these section, it is configured an .ini file with the azure storage credentials, to use those credentials in the function without hard code, improving
+the code security.
+
+```
+conn.ini content:
+
+[azurestorage]
+storage_account_key = <account key here>
+storage_account_name = <account name here>
+connection_string = <connection string here>
+container_name = <container name here>
+```
+Those information can be found in Azure storage account > Security + networking > Access keys
+
+![example](https://github.com/user-attachments/assets/245664a4-07ca-4219-b645-8be887ed86f2)
