@@ -1,8 +1,9 @@
 ## This project is an api extraction. The api documentation can be found [here](https://pokeapi.co/docs/v2)
 ### Content
 
-* [Utilized technologies](Technologies)
-
+* [Utilized technologies](#technologies)
+* [Architecture](#project-architecture)
+* [Api code](#api)
 
 ### Technologies
 The followig tools were used for the development:
@@ -19,7 +20,7 @@ The followig tools were used for the development:
 
 ### Api
 
-Initially, just made a request to a simple return from the api (the first 20 registers)
+Initially, just made a request to a simple return from the api (the first 20 registers), then implemented the while loop and later the function 'to_blob_storage' to send the extracted data to azure storage.
 
 ```python
 # lib imports
@@ -70,3 +71,5 @@ def extrair_pokemon():
 if __name__ == "__main__":
     extrair_pokemon()
 ```
+### Config
+
