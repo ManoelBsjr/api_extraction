@@ -40,7 +40,3 @@ def extrair_pokemon():
 
     #write on to azure storage
     to_blob_storage(pokemon_list, "api_pokemon")
-
-if __name__ == "__main__":
-    extrair_pokemon()
-    # extrair_pokemon = extrair_pokemon()

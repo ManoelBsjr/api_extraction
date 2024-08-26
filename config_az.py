@@ -14,7 +14,3 @@ def load_config(filename='conns.ini', section='azurestorage'):
         raise Exception(f'Section {section} not found in the {filename} file')
 
     return config
-
-if __name__ == '__main__':
-    load_config()
-    

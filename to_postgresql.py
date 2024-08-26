@@ -69,5 +69,3 @@ def to_postgresql(extract_data, table_name, table_schema = ""):
     conn.commit()
     conn.close()
     cursor.close()
-# if __name__ == '__main__':
-#     to_postgresql = to_postgresql()
