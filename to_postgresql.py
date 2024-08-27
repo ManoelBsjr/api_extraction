@@ -42,9 +42,7 @@ def to_postgresql(extract_data, table_name, table_schema = ""):
     #cursor
     cursor = conn.cursor()
 
-    # query that will create the table. The DEFAULT keyword is used while
-    # creating the DARTA_CARGA column to set the current date as a default value.
-
+    # query that will create the table
     sql_query = f"""
     DROP TABLE IF EXISTS {schema}.{table_name};
     CREATE TABLE {schema}.{table_name}(
