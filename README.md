@@ -9,6 +9,7 @@
 * [The Dag](#the-dag)
 * [Azure data factory](#azure-data-factory)
 * [Azure Sql](#azure-sql)
+* [Postgresql](#postgresql)
 
 ### Technologies
 The followig tools were used for the development:
@@ -192,3 +193,90 @@ After the dag completes, it writes a file in the azure container that is configu
 Using DBeaver, i connected to the server and database, and used the SalesLT schema that Azure sql already provides for tests.
 
 ![dbeaver](https://github.com/user-attachments/assets/7ca8627e-9536-427b-a8ea-bbbb36aef7cc)
+
+### Postgresql
+
+Alternativaly, you can create a table in local database, using to_postgresql.py. The scrpt defines a function that converts the 'extract_data' into a dataframe and insert into a table in a local postgresql. load_config function is similar to the azure load_config, passing the access for the local postgre connection.
+```python
+import pandas as pd
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
+import psycopg2
+from datetime import datetime
+from config import load_config
+
+def to_postgresql(extract_data, table_name, table_schema = ""):
+    # making the convertion of the given parameter 'extract_data',
+    # the pokemon_list in that case, to a pandas dataframe
+    
+    df = pd.DataFrame(extract_data)
+
+    # add the load date
+    df["DATA_CARGA"] = datetime.today().strftime('%Y-%m-%d')
+
+    # Load
+    config = load_config()
+
+    user = config["user"]
+    password = config["password"]
+    host = config["host"]
+    database = config["database"]
+    schema = "testedel"
+
+    #connection engine to postgresql, without specifying schema
+    # engine = create_engine(f'postgresql://{user}:{password}@{host}/{database}')
+
+    #connection engine to postgresql, specifying schema
+    engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}/{database}',
+                           connect_args={'options': f'-csearch_path={schema}'})
+
+    #parameters for the connection with database
+    conn = psycopg2.connect( host = host,
+                            database = database,
+                            user = user,
+                            password = password
+                            )
+    
+    conn.autocommit = True
+    
+    #cursor
+    cursor = conn.cursor()
+    
+    sql_query = f"""
+    DROP TABLE IF EXISTS {schema}.{table_name};
+    CREATE TABLE {schema}.{table_name}(
+        {table_schema},
+        data_carga varchar(10)
+    );
+    """
+
+    ##cursor to execute query
+    print("executando query no sql")
+    cursor.execute(sql_query)
+
+    #insert the data in the created table in postgresql with the given table_name
+    with engine.connect() as connection:
+        try:
+            df.to_sql(name=table_name, con=connection, if_exists= "replace", index=False)
+            print("tabela inserida no PostgreSQL")
+        except SQLAlchemyError as e:
+            print(f"erro ao inserir tabela: {e}")
+
+    #close connection
+    conn.commit()
+    conn.close()
+    cursor.close()
+```
+To call the function in the api_pokemon.py, it is needed to pass the extracted data, name for the table and an schema, like that:
+```python
+    table_schema = """
+        id int PRIMARY KEY,
+        nome varchar(30),
+        altura int,
+        peso int
+        """
+
+    #calling the function to create the table "POKEMON", with the "table_schema" and pokemon_list data
+    to_postgresql(pokemon_list, "pokemon", table_schema)
+
+```
