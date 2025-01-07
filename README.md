@@ -1,7 +1,7 @@
 ## Api extraction using Airflow and Azure. The pokemon api documentation can be found [here](https://pokeapi.co/docs/v2)
 ### Content
 
-* [Utilized technologies](#technologies)
+* [Used technologies](#technologies)
 * [Architecture](#project-architecture)
 * [Api code](#api)
 * [Configuration](#configs)
